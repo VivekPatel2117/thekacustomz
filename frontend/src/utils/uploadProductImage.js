@@ -19,5 +19,5 @@ export const uploadProductImage = async (file, productName, isHero = false) => {
 
   if (error) throw error;
 
-  return `${process.env.REACT_APP_SUPABASE_URL}/storage/v1/object/public/products/${path}`;
+  return `${process.env.REACT_APP_SUPABASE_URL}/storage/v1/object/public/thekacustomz/${path}`;
 };

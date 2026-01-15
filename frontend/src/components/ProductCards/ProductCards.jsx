@@ -26,7 +26,7 @@ const ProductCards = ({ title, viewAllLink, products }) => {
             className={styles.card}
           >
             <div className={styles.imageWrapper}>
-              {product.onSale && (
+              {product.discount && (
                 <span className={styles.saleBadge}>SALE</span>
               )}
 
@@ -45,9 +45,9 @@ const ProductCards = ({ title, viewAllLink, products }) => {
                   Rs. {product.price}
                 </span>
 
-                {product.compareAt && (
+                {product.discount && (
                   <span className={styles.compare}>
-                    Rs. {product.compareAt}
+                    Rs. {product.discount ? product.price - product.discount : 0}
                   </span>
                 )}
               </div>
