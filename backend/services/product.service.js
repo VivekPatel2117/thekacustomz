@@ -66,6 +66,15 @@ export const getProductsService = async () => {
   `;
 };
 
+export const getProductsByTagsService = async (tag) => {
+  return await sql`
+    SELECT *
+    FROM products
+    WHERE tags=${tag}
+    ORDER BY created_at DESC
+  `;
+};
+
 /* ---------------- GET PRODUCT BY ID ---------------- */
 export const getProductByIdService = async (id) => {
   const [product] = await sql`

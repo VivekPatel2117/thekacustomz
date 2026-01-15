@@ -3,7 +3,8 @@ import {
   getProductsService,
   getProductByIdService,
   updateProductService,
-  deleteProductService
+  deleteProductService,
+  getProductsByTagsService
 } from "../services/product.service.js";
 
 /* CREATE */
@@ -27,6 +28,15 @@ export const getProducts = async (req, res) => {
   }
 };
 
+export const getProductsByTags = async (req, res) => {
+  try {
+    const { tags } = req.query;
+    const products = await getProductsByTagsService(tags);
+    res.json({ success: true, data: products });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
 /* READ ONE */
 export const getProductById = async (req, res) => {
   try {
