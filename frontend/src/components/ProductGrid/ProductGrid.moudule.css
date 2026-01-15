@@ -1,0 +1,102 @@
+.wrapper {
+  padding: 40px 48px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.viewAll {
+  font-size: 14px;
+  text-decoration: none;
+  color: #000;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* Card */
+.card {
+  text-decoration: none;
+  color: #000;
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+
+.imageWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Sale badge */
+.sale {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+/* Info */
+.info {
+  margin-top: 10px;
+}
+
+.title {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.priceRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.compare {
+  font-size: 12px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+/* ---------------- MOBILE ---------------- */
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 24px 16px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .title {
+    font-size: 13px;
+  }
+}

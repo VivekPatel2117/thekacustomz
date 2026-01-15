@@ -1,0 +1,117 @@
+.wrapper {
+  padding: 40px 48px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.viewAll {
+  font-size: 14px;
+  text-decoration: none;
+  color: #000;
+}
+
+/* Products */
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* Scrollable when more than 4 */
+.scrollable {
+  display: flex;
+  overflow-x: auto;
+  gap: 24px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.scrollable::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card */
+.card {
+  text-decoration: none;
+  color: #000;
+  min-width: 260px;
+  scroll-snap-align: start;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+
+.imageWrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Sale badge */
+.saleBadge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+/* Info */
+.info {
+  margin-top: 10px;
+}
+
+.title {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.priceRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.compare {
+  font-size: 12px;
+  text-decoration: line-through;
+  color: #999;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 24px 16px;
+  }
+
+  .products {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .card {
+    min-width: 70%;
+  }
+}

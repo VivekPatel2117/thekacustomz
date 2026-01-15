@@ -1,0 +1,9 @@
+.form {
+  padding: 16px;
+  border: 1px dashed #ccc;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
