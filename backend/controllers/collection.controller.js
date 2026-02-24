@@ -3,7 +3,8 @@ import {
   getCollectionsService,
   getCollectionByIdService,
   updateCollectionService,
-  deleteCollectionService
+  deleteCollectionService,
+  getCollectionProductsService
 } from "../services/collection.service.js";
 
 /* CREATE */
@@ -67,3 +68,21 @@ export const deleteCollection = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const getCollectionProducts = async (req, res) => {
+  try {
+    const collection = await getCollectionByIdService(req.params.id);
+
+    if (!collection) {
+      return res.status(404).json({
+        success: false,
+        message: "Collection not found"
+        });
+    }
+    const products = await getCollectionProductsService(req.params.id);
+    res.json({ success: true, data: {  products } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+

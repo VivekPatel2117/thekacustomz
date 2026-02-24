@@ -4,7 +4,8 @@ import {
   getProductByIdService,
   updateProductService,
   deleteProductService,
-  getProductsByTagsService
+  getProductsByTagsService,
+  getRecommendedProductsService
 } from "../services/product.service.js";
 
 /* CREATE */
@@ -36,7 +37,7 @@ export const getProductsByTags = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
-}
+};
 /* READ ONE */
 export const getProductById = async (req, res) => {
   try {
@@ -64,5 +65,15 @@ export const deleteProduct = async (req, res) => {
     res.json({ success: true, message: "Product deleted" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const getRecommendedProducts = async (req, res) => {
+  try {
+    const { product_id } = req.params;
+    const products = await getRecommendedProductsService(product_id);
+    res.json({ success: true, data: products });
+  } catch (error) {
+    res.json({ success: false, error: error.message });
   }
 };

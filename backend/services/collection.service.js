@@ -73,3 +73,17 @@ export const deleteCollectionService = async (id) => {
   `;
   return true;
 };
+
+export const getCollectionProductsService = async (id) => {
+  return await sql`
+  SELECT 
+  c.*,
+  p.id AS product_id,
+  p.*
+FROM collection c
+INNER JOIN products p 
+  ON p.collection_id = c.id
+WHERE c.id = ${id}
+ORDER BY c.created_at DESC;
+  `;
+};

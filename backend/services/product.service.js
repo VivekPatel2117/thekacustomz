@@ -137,3 +137,19 @@ export const deleteProductService = async (id) => {
   `;
   return true;
 };
+
+
+export const getRecommendedProductsService = async (product_id) => {
+  const recommendedProducts = await sql`
+    SELECT p2.*
+    FROM products p1
+    JOIN products p2
+      ON p2.collection_id = p1.collection_id
+     AND p2.id != p1.id
+    WHERE p1.id = ${product_id}
+    ORDER BY p2.created_at DESC
+    LIMIT 5
+  `;
+
+  return recommendedProducts;
+};
