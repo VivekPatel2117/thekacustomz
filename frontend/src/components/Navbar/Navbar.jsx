@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import styles from "./Navbar.module.css";
+import Logo from "../../images/ThekaCustomz_logo_black.png";
+import { useCartStore } from "../../store/useCartStore";
 import {
-  Search,
   User,
   ShoppingBag,
   Menu,
   X
 } from "lucide-react";
-
+import CartDrawer from "../CartDrawer/CartDrawer";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
+  const navigate = useNavigate();
+   const cartCount = useCartStore((state) =>
+    state.cart.reduce((total, item) => total + item.quantity, 0)
+  );
   const [isSticky, setIsSticky] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const cartCount = 3; // dynamic later from context/store
+const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,22 +40,22 @@ const Navbar = () => {
 
         {/* Left Menu */}
         <nav className={styles.leftMenu}>
-          <a href="#">Matching Tees</a>
-          <a href="#">Stranger Collection</a>
-          <a href="#">Contact Us</a>
-          <a href="#">Valentine Favourites</a>
-          <a href="#">Customization</a>
+         <a href="/products">Products</a>
+          <a href="/collection/2">Stranger Collection</a>
+          <a href="/contact-us">Contact Us</a>
+          <a href="/collection/3">Valentine Favourites</a>
         </nav>
 
         {/* Center Logo */}
-        <div className={styles.logo}>T</div>
+        <div onClick={()=> navigate("/")} className={styles.logo}>
+          <img style={{ height:"7vh", marginTop:"10%"}} src={Logo} alt="Theka Customz" />
+        </div>
 
         {/* Right Icons */}
         <div className={styles.rightMenu}>
-          <Search size={20} />
-          <User size={20} />
+          <User onClick={()=> navigate("/auth")} size={20} />
 
-          <div className={styles.cartIcon}>
+          <div onClick={()=> setIsCartOpen(true)} className={styles.cartIcon}>
             <ShoppingBag size={20} />
             {cartCount > 0 && (
               <span className={styles.cartBadge}>{cartCount}</span>
@@ -66,13 +72,13 @@ const Navbar = () => {
         </div>
 
         <nav className={styles.drawerMenu}>
-          <a href="#">Matching Tees</a>
-          <a href="#">Stranger Collection</a>
-          <a href="#">Contact Us</a>
-          <a href="#">Valentine Favourites</a>
-          <a href="#">Customization</a>
+          <a href="/products">Products</a>
+          <a href="/collection/2">Stranger Collection</a>
+          <a href="/contact-us">Contact Us</a>
+          <a href="/collection/3">Valentine Favourites</a>
         </nav>
       </div>
+      <CartDrawer isOpen={isCartOpen} onClose={()=>setIsCartOpen(false)} />
     </>
   );
 };

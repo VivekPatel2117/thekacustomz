@@ -1,8 +1,12 @@
 import styles from "./ProductCards.module.css";
-
+import { useNavigate } from "react-router-dom";
 const ProductCards = ({ title, viewAllLink, products }) => {
   const isScrollable = products.length > 4;
-
+  const navigate = useNavigate();
+  const handleProductNavigation = (url) => {
+   window.location.href = url;
+  };
+ 
   return (
     <section className={styles.wrapper}>
       {/* Header */}
@@ -20,9 +24,9 @@ const ProductCards = ({ title, viewAllLink, products }) => {
         }`}
       >
         {products.map((product, index) => (
-          <a
+          <div
             key={index}
-            href={product.link}
+             onClick={()=>handleProductNavigation(product.link)}
             className={styles.card}
           >
             <div className={styles.imageWrapper}>
@@ -52,7 +56,7 @@ const ProductCards = ({ title, viewAllLink, products }) => {
                 )}
               </div>
             </div>
-          </a>
+          </div>
         ))}
       </div>
     </section>

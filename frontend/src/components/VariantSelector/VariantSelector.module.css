@@ -1,0 +1,48 @@
+.wrapper {
+  margin: 24px 0;
+}
+
+.colorBlock {
+  margin-bottom: 18px;
+}
+
+.colorTitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.sizeRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sizeBtn {
+  min-width: 44px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid #dcdcdc;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.sizeBtn:hover {
+  border-color: #000;
+}
+
+.sizeBtn.active {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .sizeBtn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,150 @@
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.heading {
+  margin-bottom: 25px;
+}
+
+/* PROFILE CARD */
+.profileCard {
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.editBtn {
+  padding: 10px 15px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* ORDERS */
+.ordersHeading {
+  margin-bottom: 20px;
+}
+
+.ordersWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.orderCard {
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 10px;
+  background: white;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orderId {
+  font-weight: 600;
+}
+
+.date {
+  font-size: 13px;
+  color: #777;
+}
+
+.status {
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.delivered {
+  background: #d4edda;
+  color: #155724;
+}
+
+.processing {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.orderItems {
+  margin-top: 15px;
+  display: flex;
+  gap: 15px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.orderFooter {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.editForm input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.buttonRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.saveBtn {
+  padding: 10px 15px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  padding: 10px 15px;
+  background: #eee;
+  border: none;
+  cursor: pointer;
+}
+/* MOBILE */
+@media (max-width: 768px) {
+  .profileCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .orderItems {
+    flex-direction: column;
+  }
+}

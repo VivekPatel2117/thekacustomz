@@ -9,6 +9,7 @@ import ProductForm from '../../components/ProductForm/ProductForm';
 import CollectionForm from '../../components/CollectionForm/CollectionForm';
 import { getProductsByTagsApi } from '../../services/product.api.js';
 import ProductCards from '../../components/ProductCards/ProductCards.jsx';
+import Footer from '../../components/Footer/Footer.jsx';
 export default function Dashboard() {
   const [CollectionCardsData, setCollectionCardsData] = useState([]);
   const [BestSellingProductsData, setBestSellingProductsData] = useState([]);
@@ -17,6 +18,7 @@ export default function Dashboard() {
       if(res && res.data){
         const data = res.data;
         const formattedData = data.map((item) => ({
+          id: item.id,
           title: item.collection_name,
           image: item.collection_image,
           link: `/collections/${item.collection_name}`
@@ -34,7 +36,7 @@ export default function Dashboard() {
           image: JSON.parse(item.product_images).hero_image,
           price: item.product_price,
           discount: item.discount_rate,
-          link: `/products/${item.product_name}`
+          link: `/products/${item.id}/${item.product_uuid}`
         }));
         setBestSellingProductsData(formattedData);
       }
@@ -62,6 +64,7 @@ export default function Dashboard() {
           </div>
           <CollectionForm/>
         <ProductForm/>
+        <Footer/>
     </>
   )
 }
