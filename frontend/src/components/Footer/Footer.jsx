@@ -25,13 +25,7 @@ const Footer = () => {
       <div className={styles.bottom}>
         <span>© 2026 ThekaCustomz</span>
 
-        <div className={styles.links}>
-          <a href="/privacy-policy">Privacy policy</a>
-          <a href="/refund-policy">Refund policy</a>
-          <a href="/terms-of-service">Terms of service</a>
-          <a href="/contact">Contact information</a>
-          <a href="/shipping-policy">Shipping policy</a>
-        </div>
+       
       </div>
     </footer>
   );

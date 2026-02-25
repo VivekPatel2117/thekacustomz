@@ -1,21 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCartStore } from "../../store/useCartStore";
 import styles from "./CartDrawer.module.css";
-import VariantSelector from "../VariantSelector/VariantSelector";
 import QuantityCounter from "../QuantityCounter/QuantityCounter";
 import { useNavigate } from "react-router-dom";
+
 export default function CartDrawer({ isOpen, onClose }) {
   const cart = useCartStore((state) => state.cart);
   const totalAmount = useCartStore((state) => state.totalAmount);
   const discountAmount = useCartStore((state) => state.discountAmount);
-  const coupon = useCartStore((state) => state.coupon);
-  const applyCoupon = useCartStore((state) => state.applyCoupon);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const setOrderNote = useCartStore((state) => state.setOrderNote);
 
   const navigate = useNavigate();
-  const [couponInput, setCouponInput] = useState("");
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
@@ -25,34 +22,39 @@ export default function CartDrawer({ isOpen, onClose }) {
 
   return (
     <>
+      {/* Overlay */}
       <div
         className={`${styles.overlay} ${isOpen ? styles.show : ""}`}
         onClick={onClose}
       />
 
+      {/* Drawer */}
       <div
         className={`${styles.drawer} ${isOpen ? styles.open : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Header */}
         <div className={styles.header}>
           <h2>Your Cart</h2>
           <button onClick={onClose}>✕</button>
         </div>
 
+        {/* Items */}
         <div className={styles.items}>
           {cart.length === 0 ? (
             <p className={styles.empty}>Your cart is empty.</p>
           ) : (
             cart.map((item) => (
               <div key={item.cartItemId} className={styles.item}>
-                {/* IMAGE */}
+                {/* Image */}
                 <img
                   src={item.image}
                   alt={item.name}
                   className={styles.image}
                 />
 
-                <div style={{ borderLeft:"1px solid gray", borderRight:" 1px solid gray", padding:"0% 2%", marginRight:"1%"}} className={styles.itemDetails}>
+                {/* Details */}
+                <div className={styles.itemDetails}>
                   <p className={styles.name}>{item.name}</p>
 
                   <p className={styles.meta}>
@@ -60,12 +62,12 @@ export default function CartDrawer({ isOpen, onClose }) {
                     {item.size && <>Size: {item.size}</>}
                   </p>
 
-                  <div className={styles.qtyControls}>
-                    <QuantityCounter
-                      value={item.quantity}
-                      onChange={(val) => updateQuantity(item.cartItemId, val)}
-                    />
-                  </div>
+                  <QuantityCounter
+                    value={item.quantity}
+                    onChange={(val) =>
+                      updateQuantity(item.cartItemId, val)
+                    }
+                  />
 
                   <button
                     className={styles.removeBtn}
@@ -77,6 +79,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                   </button>
                 </div>
 
+                {/* Price */}
                 <div className={styles.price}>
                   ₹{item.price * item.quantity}
                 </div>
@@ -85,70 +88,48 @@ export default function CartDrawer({ isOpen, onClose }) {
           )}
         </div>
 
-        {/* COUPON SECTION */}
+        {/* Footer Section */}
         {cart.length > 0 && (
-          <div className={styles.couponSection}>
-            <input
-              type="text"
-              placeholder="Enter coupon code"
-              value={couponInput}
-              onChange={(e) => setCouponInput(e.target.value)}
-            />
-
-            {!coupon ? (
-              <button
-                className={styles.applyBtn}
-                onClick={() => {
-                  const success = applyCoupon(couponInput.trim());
-                  if (!success) alert("Invalid coupon");
-                }}
-              >
-                Apply
-              </button>
-            ) : (
-              <button onClick={() => applyCoupon(null)}>
-                Remove
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* ORDER NOTES */}
-        {cart.length > 0 && (
-          <div className={styles.notesSection}>
-            <textarea
-              placeholder="Add notes for your order (e.g., print instructions)"
-              onChange={(e) => setOrderNote(e.target.value)}
-            />
-          </div>
-        )}
-
-        <div className={styles.footer}>
-          <div className={styles.totalRow}>
-            <span>Subtotal</span>
-            <span>₹{totalAmount}</span>
-          </div>
-
-          {discountAmount > 0 && (
-            <div className={styles.discountRow}>
-              <span>Discount</span>
-              <span>-₹{discountAmount}</span>
+          <>
+            {/* Order Notes */}
+            <div className={styles.notesSection}>
+              <textarea
+                placeholder="Add notes for your order (e.g., print instructions)"
+                onChange={(e) => setOrderNote(e.target.value)}
+              />
             </div>
-          )}
 
-          <div className={styles.finalTotal}>
-            <span>Total</span>
-            <span> ₹{finalTotal}</span>
-          </div>
+            {/* Totals */}
+            <div className={styles.footer}>
+              <div className={styles.totalRow}>
+                <span>Subtotal</span>
+                <span>₹{totalAmount}</span>
+              </div>
 
-          <button
-          onClick={()=> navigate("/checkout")}
-            className={styles.checkoutBtn}
-            disabled={cart.length === 0}
-          >
-            Checkout
-          </button>
-        </div>
+              {discountAmount > 0 && (
+                <div className={styles.discountRow}>
+                  <span>Discount</span>
+                  <span>-₹{discountAmount}</span>
+                </div>
+              )}
+
+              <div className={styles.finalTotal}>
+                <span>Total</span>
+                <span>₹{finalTotal}</span>
+              </div>
+
+              <button
+                onClick={() => {
+                  onClose();
+                  navigate("/checkout");
+                }}
+                className={styles.checkoutBtn}
+              >
+                Checkout
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

@@ -1,7 +1,9 @@
+import { registerUser, loginUser } from "../../services/users.api";
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import styles from "./Auth.module.css";
+import { useUserStore } from "../../store/useUserStore";
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -17,20 +19,40 @@ export default function Auth() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    if (!isLogin && form.password !== form.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
+  const login = useUserStore((state) => state.login);
+const loading = useUserStore((state) => state.loading);
 
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
     if (isLogin) {
-      alert("Login API call here");
+      const result = await login({
+        email: form.email,
+        password: form.password,
+      });
+
+      if (result.success) {
+        alert("Login successful");
+        window.location.href = "/profile";
+      } else {
+        alert(result.message);
+      }
     } else {
-      alert("Register API call here");
+      await registerUser({
+        full_name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+
+      alert("Registration successful. Please login.");
+      setIsLogin(true);
     }
-  };
+  } catch (err) {
+    alert("Error occurred");
+  }
+};
 
   return (
     <>
@@ -92,9 +114,9 @@ export default function Auth() {
               />
             )}
 
-            <button type="submit" className={styles.submitBtn}>
-              {isLogin ? "Login" : "Register"}
-            </button>
+           <button type="submit" className={styles.submitBtn}>
+  {loading ? "Please wait..." : isLogin ? "Login" : "Register"}
+</button>
           </form>
 
           <p className={styles.switchText}>

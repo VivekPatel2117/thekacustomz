@@ -4,8 +4,9 @@ import { uploadProductImage } from "../../utils/uploadProductImage";
 import { createProductApi } from "../../services/product.api";
 import { getCollectionsApi } from "../../services/collection.api";
 import CollectionForm from "../CollectionForm/CollectionForm";
-
+import { useNavigate } from "react-router-dom";
 export default function ProductForm() {
+  const navigate = useNavigate();
   const [collections, setCollections] = useState([]);
   const [collectionId, setCollectionId] = useState("");
 
@@ -15,6 +16,7 @@ export default function ProductForm() {
 
   const [form, setForm] = useState({
     product_name: "",
+    product_desc: "",
     product_price: "",
     product_quantity: "",
     discount_rate: "",
@@ -74,7 +76,24 @@ export default function ProductForm() {
         product_variations: JSON.stringify(variations)
       });
 
-      alert("✅ Product created");
+      alert("✅ Product created successfully");
+
+      // Reset form
+      setForm({
+        product_name: "",
+        product_desc: "",
+        product_price: "",
+        product_quantity: "",
+        discount_rate: "",
+        sku: "",
+        is_available: true
+      });
+
+      setHeroImage(null);
+      setProductImages([]);
+      setVariations({ colors: [], sizes: [] });
+      setCollectionId("");
+
     } catch (err) {
       console.error(err);
       alert("❌ Error creating product");
@@ -85,13 +104,16 @@ export default function ProductForm() {
 
   return (
     <>
-      {/* COLLECTION CREATION */}
-      <CollectionForm onCreated={loadCollections} />
-
+    
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2>Create Product</h2>
+        <div>
+      <span className={styles.navigateLink} onClick={() => navigate("/ADMIN")}>Dashboard</span>
+      {" | "}
+        <span className={styles.navigateLink} onClick={()=> navigate("/create-collection")}>Create Collection</span>
+        </div>
 
-        {/* COLLECTION SELECT */}
+        {/* Collection */}
         <label>Collection</label>
         <select
           value={collectionId}
@@ -106,32 +128,128 @@ export default function ProductForm() {
           ))}
         </select>
 
-        <input name="product_name" placeholder="Product Name" onChange={handleChange} required />
-        <input name="product_desc" placeholder="Product Description" onChange={handleChange} required />
-        <input name="product_price" type="number" placeholder="Price" onChange={handleChange} required />
-        <input name="product_quantity" type="number" placeholder="Quantity" onChange={handleChange} required />
-        <input name="discount_rate" type="flot" placeholder="Discount %" onChange={handleChange} />
-        <input name="sku" placeholder="SKU" onChange={handleChange} required />
+        {/* Basic Info */}
+        <label>Product Name</label>
+        <input
+          name="product_name"
+          value={form.product_name}
+          onChange={handleChange}
+          required
+        />
 
+        <label>Description</label>
+        <textarea
+          name="product_desc"
+          value={form.product_desc}
+          onChange={handleChange}
+          required
+        />
+
+        {/* Pricing Row */}
+        <div className={styles.row}>
+          <div>
+            <label>Price</label>
+            <input
+              name="product_price"
+              type="number"
+              value={form.product_price}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div>
+            <label>Quantity</label>
+            <input
+              name="product_quantity"
+              type="number"
+              value={form.product_quantity}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div>
+            <label>Discount %</label>
+            <input
+              name="discount_rate"
+              type="number"
+              value={form.discount_rate}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <label>SKU</label>
+        <input
+          name="sku"
+          value={form.sku}
+          onChange={handleChange}
+          required
+        />
+
+        {/* Variations */}
         <label>Colors</label>
-        <select multiple onChange={(e) => handleMultiSelect(e, "colors")}>
+        <select
+          multiple
+          value={variations.colors}
+          onChange={(e) => handleMultiSelect(e, "colors")}
+        >
           {COLOR_OPTIONS.map((c) => (
             <option key={c}>{c}</option>
           ))}
         </select>
 
         <label>Sizes</label>
-        <select multiple onChange={(e) => handleMultiSelect(e, "sizes")}>
+        <select
+          multiple
+          value={variations.sizes}
+          onChange={(e) => handleMultiSelect(e, "sizes")}
+        >
           {SIZE_OPTIONS.map((s) => (
             <option key={s}>{s}</option>
           ))}
         </select>
 
+        {/* Hero Image */}
         <label>Hero Image</label>
-        <input type="file" onChange={(e) => setHeroImage(e.target.files[0])} required />
+        <input
+          type="file"
+          onChange={(e) => setHeroImage(e.target.files[0])}
+          required
+        />
 
-        <label>Product Images</label>
-        <input type="file" multiple onChange={(e) => setProductImages(e.target.files)} />
+        {heroImage && (
+          <img
+            src={URL.createObjectURL(heroImage)}
+            alt="preview"
+            style={{ width: "120px", borderRadius: "8px" }}
+          />
+        )}
+
+        {/* Product Images */}
+        <label>Product Gallery Images</label>
+        <input
+          type="file"
+          multiple
+          onChange={(e) => setProductImages(e.target.files)}
+        />
+
+        {productImages.length > 0 && (
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            {[...productImages].map((img, i) => (
+              <img
+                key={i}
+                src={URL.createObjectURL(img)}
+                alt="preview"
+                style={{
+                  width: "100px",
+                  borderRadius: "8px"
+                }}
+              />
+            ))}
+          </div>
+        )}
 
         <button disabled={loading}>
           {loading ? "Uploading..." : "Create Product"}

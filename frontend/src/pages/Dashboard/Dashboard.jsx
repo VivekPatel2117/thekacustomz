@@ -62,8 +62,6 @@ export default function Dashboard() {
           <div className="section3">
             <ProductCards title={"Best Selling Products"} viewAllLink={"/products"} products={BestSellingProductsData} />
           </div>
-          <CollectionForm/>
-        <ProductForm/>
         <Footer/>
     </>
   )

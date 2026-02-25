@@ -6,50 +6,64 @@ export const useCartStore = create(
     (set, get) => ({
       cart: [],
       totalAmount: 0,
+      discountAmount: 0,
+      coupon: null,
+      orderNote: "",
 
+      /* =========================
+         ADD TO CART
+      ========================= */
       addToCart: (product) => {
         const cart = get().cart;
 
-        // Unique cart item key (important for custom products)
-        const cartItemId = `${product.id}-${product.size || ""}-${product.color || ""}-${product.customImage || ""}`;
+        const cartItemId = `${product.id}-${product.size || ""}-${
+          product.color || ""
+        }-${product.customImage || ""}`;
 
         const existingItem = cart.find(
           (item) => item.cartItemId === cartItemId
         );
 
+        let updatedCart;
+
         if (existingItem) {
-          const updatedCart = cart.map((item) =>
+          updatedCart = cart.map((item) =>
             item.cartItemId === cartItemId
-              ? { ...item, quantity: item.quantity + product.quantity }
+              ? {
+                  ...item,
+                  quantity: item.quantity + product.quantity,
+                }
               : item
           );
-
-          set({ cart: updatedCart });
         } else {
-          set({
-            cart: [
-              ...cart,
-              {
-                ...product,
-                cartItemId,
-              },
-            ],
-          });
+          updatedCart = [
+            ...cart,
+            {
+              ...product,
+              cartItemId,
+            },
+          ];
         }
 
+        set({ cart: updatedCart });
         get().calculateTotal();
       },
 
+      /* =========================
+         REMOVE ITEM
+      ========================= */
       removeFromCart: (cartItemId) => {
-        set({
-          cart: get().cart.filter(
-            (item) => item.cartItemId !== cartItemId
-          ),
-        });
+        const updatedCart = get().cart.filter(
+          (item) => item.cartItemId !== cartItemId
+        );
 
+        set({ cart: updatedCart });
         get().calculateTotal();
       },
 
+      /* =========================
+         UPDATE QUANTITY
+      ========================= */
       updateQuantity: (cartItemId, quantity) => {
         const updatedCart = get().cart.map((item) =>
           item.cartItemId === cartItemId
@@ -61,8 +75,45 @@ export const useCartStore = create(
         get().calculateTotal();
       },
 
-      clearCart: () => set({ cart: [], totalAmount: 0 }),
+      /* =========================
+         CLEAR CART
+      ========================= */
+      clearCart: () =>
+        set({
+          cart: [],
+          totalAmount: 0,
+          discountAmount: 0,
+          coupon: null,
+          orderNote: "",
+        }),
 
+      /* =========================
+         SET ORDER NOTE
+      ========================= */
+      setOrderNote: (note) =>
+        set({
+          orderNote: note,
+        }),
+
+      /* =========================
+         APPLY COUPON (Simple Example)
+      ========================= */
+      applyCoupon: (code) => {
+        let discount = 0;
+
+        if (code === "THEKA10") {
+          discount = get().totalAmount * 0.1;
+        }
+
+        set({
+          coupon: code,
+          discountAmount: discount,
+        });
+      },
+
+      /* =========================
+         CALCULATE TOTAL
+      ========================= */
       calculateTotal: () => {
         const total = get().cart.reduce(
           (sum, item) => sum + item.price * item.quantity,
@@ -74,6 +125,10 @@ export const useCartStore = create(
     }),
     {
       name: "thekacustomz-cart",
+      onRehydrateStorage: () => (state) => {
+        // Recalculate total after reload
+        state?.calculateTotal();
+      },
     }
   )
 );

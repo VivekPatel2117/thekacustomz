@@ -1,0 +1,167 @@
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+.heading {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.orderCard {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.section h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.label {
+  font-weight: 500;
+  color: #555;
+}
+
+.value {
+  color: #111;
+}
+
+.status {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.statusPending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.statusProcessing {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.statusDelivered {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.statusCancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* ==============================
+   ITEMS SECTION
+============================== */
+
+.itemsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.itemCard {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.itemImage {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #fff;
+  padding: 8px;
+  border: 1px solid #eee;
+}
+
+.itemDetails {
+  flex: 1;
+}
+
+.itemName {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.itemMeta {
+  font-size: 14px;
+  color: #666;
+}
+
+.itemPrice {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* ==============================
+   TOTAL SECTION
+============================== */
+
+.totalBox {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.grandTotal {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+
+@media (max-width: 768px) {
+  .itemCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .itemImage {
+    width: 100%;
+    height: auto;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
