@@ -13,18 +13,13 @@ export default function ReviewList({ productId }) {
 
   const fetchReviews = async () => {
     const res = await getReviewsByProductApi(productId);
-    setReviews(res.data);
+    setReviews(res.data.data);
     console.log("Fetched reviews:", res.data.data.length);
   };
 
   useEffect(() => {
     fetchReviews();
   }, [productId]);
-
-  const handleVote = async (reviewId) => {
-    await voteReviewApi(reviewId);
-    fetchReviews();
-  };
 
   return (
     <div className={styles.reviewList}>
@@ -48,16 +43,16 @@ export default function ReviewList({ productId }) {
 
               <p>{review.review_text}</p>
 
-              {review.media?.map((img) => (
+              {review.media_url?.split(",").map((img) => (
                 <img
-                  key={img.media_url}
-                  src={img.media_url}
+                  key={img}
+                  src={img}
                   alt="review"
                   className={styles.reviewImage}
                 />
               ))}
 
-              <button onClick={() => handleVote(review.id)}>👍 Helpful</button>
+              
             </div>
           ))}
             </>

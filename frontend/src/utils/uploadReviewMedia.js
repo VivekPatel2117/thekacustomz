@@ -1,18 +1,22 @@
-import { supabase } from "./supabase";
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(
+  process.env.REACT_APP_SUPABASE_URL,
+  process.env.REACT_APP_SUPABASE_ANON_KEY
+);
 
-export const uploadReviewMedia = async (file, reviewId) => {
+export const uploadReviewMedia = async (file) => {
   const fileExt = file.name.split(".").pop();
-  const fileName = `${reviewId}-${Date.now()}.${fileExt}`;
+  const fileName = `${Date.now()}.${fileExt}`;
   const filePath = `review-media/${fileName}`;
 
   const { error } = await supabase.storage
-    .from("products")   // 👈 your bucket name
+    .from("thekacustomz")   // 👈 your bucket name
     .upload(filePath, file);
 
   if (error) throw error;
 
   const { data } = supabase.storage
-    .from("products")
+    .from("thekacustomz")
     .getPublicUrl(filePath);
 
   return data.publicUrl;

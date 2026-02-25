@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import styles from "./Contact.module.css";
+import api from "../../services/api";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -15,9 +16,17 @@ export default function Contact() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  async (e) => {
     e.preventDefault();
-    alert("Message submitted successfully!");
+    const { name, email, subject, message } = form;
+    if (!name || !email || !subject || !message) {
+      alert("Please fill in all fields.");
+      return;
+    } 
+    const res = await api.post("/users/contact-us", { name, email, subject, message });
+    console.log(res);
+    if(res.data.success)    alert("Message submitted successfully!");
+    else alert("Failed to submit message");
     // Integrate API here later
   };
 

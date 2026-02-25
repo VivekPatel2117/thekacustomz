@@ -69,6 +69,13 @@ export default function AdminDashboard() {
           >
             Create Collection
           </span>
+          {" | "}
+            <span
+            className={styles.link}
+            onClick={() => navigate("/review")}
+          >
+            Manage Reviews
+          </span>
         </div>
   
         {/* Stats */}

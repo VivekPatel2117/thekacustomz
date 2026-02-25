@@ -11,6 +11,7 @@ import Auth from "./pages/Auth/Auth.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.jsx";
 import OrderDetails from "./pages/OrderDetails/OrderDetails.jsx";
+import AdminReviewPage from "./pages/AdminReviewPage/AdminReviewPage.jsx";
 import { CreateProduct } from "./pages/CreateProduct/CreateProduct.jsx";
 import { CreateCollection } from "./pages/CreateCollection/CreateCollection.jsx";
 import {
@@ -68,6 +69,7 @@ export default function App() {
       }
     />
 
+ <Route path="/review" element={<AdminRoute><AdminReviewPage /></AdminRoute>} />
     <Route
       path="/create-product"
       element={
