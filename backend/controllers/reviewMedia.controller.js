@@ -11,18 +11,17 @@ import {
 export const addReviewMedia = async (req, res) => {
   try {
     const { reviewId } = req.params;
-    const { media_type, media_url, thumbnail_url } = req.body;
+    const { media_url, thumbnail_url } = req.body;
 
-    if (!media_type || !media_url) {
+    if (!media_url) {
       return res.status(400).json({
         success: false,
-        message: "media_type and media_url are required",
+        message: "media_url is required",
       });
     }
 
     const media = await addReviewMediaService({
       review_id: reviewId,
-      media_type,
       media_url,
       thumbnail_url,
     });

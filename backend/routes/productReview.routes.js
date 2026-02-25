@@ -5,6 +5,8 @@ import {
   getReviewById,
   updateReview,
   deleteReview,
+  getAllReviews,
+  updateReviewStatus,
 } from "../controllers/productReview.controller.js";
 
 const router = express.Router();
@@ -21,7 +23,9 @@ router.get("/reviews/:reviewId", getReviewById);
 // Update review
 router.patch("/reviews/:reviewId", updateReview);
 
+router.put("/reviews/:reviewId/status", updateReviewStatus);
 // Delete review
 router.delete("/reviews/:reviewId", deleteReview);
 
+router.get("/reviews", getAllReviews);
 export default router;

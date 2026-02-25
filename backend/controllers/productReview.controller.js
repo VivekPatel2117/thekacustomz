@@ -4,7 +4,45 @@ import {
   getReviewByIdService,
   updateReviewService,
   deleteReviewService,
+  getAllReviewsService,
+  updateReviewStatusService
 } from "../services/productReview.service.js";
+
+export const updateReviewStatus = async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+    const { review_status } = req.body;
+
+    if (!review_status) {
+      return res.status(400).json({
+        success: false,
+        message: "Review status is required",
+      });
+    }
+
+    const review = await updateReviewStatusService(reviewId, review_status);
+
+    if (!review) {
+      return res.status(404).json({
+        success: false,
+        message: "Review not found",
+      });
+    }
+
+    res.json({ success: true, data: review });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error" });
+  } 
+};
+
+export const getAllReviews = async (req, res) => {
+  try {
+    const reviews = await getAllReviewsService();
+    res.json({ success: true, data: reviews });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 
 /**
  * POST /products/:productId/reviews

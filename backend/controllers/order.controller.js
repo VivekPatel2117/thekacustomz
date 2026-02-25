@@ -1,4 +1,14 @@
 import * as orderService from "../services/order.service.js";
+import { sendEmail } from "../utils/mailer.js";
+
+const orderConfirmationTemplate = `
+  <h2>Hello {{name}},</h2>
+  <p>Your order <strong>#{{orderId}}</strong> has been placed successfully.</p>
+  <p>Total Amount: ₹{{amount}}</p>
+  <p>Thank you for shopping with Thekacustomz ❤️</p>
+`;
+
+
 /* =========================
    CREATE ORDER
 ========================= */
@@ -10,8 +20,22 @@ export const createOrder = async (req, res) => {
       user_id: req.user.id, // from JWT
     });
 
+    console.log(req.user.email, " - Order created with ID:", order.id, "and amount:", order.amount, "for user:", req.user.full_name);
+    // Send confirmation email
+    await sendEmail({
+      emailTo: req.user.email,
+      subject: "Order Confirmation - Thekacustomz",
+      htmlTemplate: orderConfirmationTemplate,
+      variables: {
+        name: req.user.full_name,
+        orderId: order.id,
+        amount: order.amount,
+      },
+    });
+
     res.status(201).json(order);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 };

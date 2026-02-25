@@ -5,20 +5,18 @@ import  sql from "../config/db.js";
  */
 export const addReviewMediaService = async ({
   review_id,
-  media_type,
-  media_url,
+  media_url, // Fixed: Added this back
   thumbnail_url,
 }) => {
+  // Fixed: Columns now match the values being passed
   const [media] = await sql`
     INSERT INTO review_media (
       review_id,
-      media_type,
       media_url,
       thumbnail_url
     )
     VALUES (
       ${review_id},
-      ${media_type},
       ${media_url},
       ${thumbnail_url}
     )
